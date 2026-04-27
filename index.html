@@ -279,12 +279,12 @@ function filterRows(rows) {
 
 // ─── LOAD DATA ────────────────────────────────────────────────────
 function sheetUrl(tab) {
-  return SHEET_BASE_URL + '&sheet=' + encodeURIComponent(tab);
+  return SHEET_BASE_URL + '&sheet=' + encodeURIComponent(tab) + '&t=' + Date.now();
 }
 
 async function fetchTab(tab, channel) {
   try {
-    var r = await fetch(sheetUrl(tab));
+    var r = await fetch(sheetUrl(tab), {cache: 'no-store'});
     var txt = await r.text();
     var lines = txt.trim().split('\n');
     if (lines.length < 2) return [];
