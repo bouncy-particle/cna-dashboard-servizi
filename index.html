@@ -226,9 +226,9 @@ tbody td{padding:10px 12px;border-bottom:1px solid #F8FAFC;font-variant-numeric:
 // ─── CONFIG ───────────────────────────────────────────────────────
 var PASSWORD = 'CNA12345';
 var SHEET_BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihZqW6ag1bZfRtv7JzYPBJHVa4v9jVGTTFJDa8ky0clll85bo2fG7htOEOlgOVQ4M5_gTZlw9a6I/pub?output=csv';
-var GOOGLE_TAB = 'google_ads';
-var META_TAB = 'meta_ads';
-
+var GOOGLE_GID = 'METTI_QUI_GID_GOOGLE';
+var META_GID = 'METTI_QUI_GID_META';
+  
 var VERT_COLORS = {
   'Sicurezza': '#005CA9',
   'Formazione': '#0EA5E9',
@@ -278,8 +278,8 @@ function filterRows(rows) {
 }
 
 // ─── LOAD DATA ────────────────────────────────────────────────────
-function sheetUrl(tab) {
-  return SHEET_BASE_URL + '&sheet=' + encodeURIComponent(tab) + '&t=' + Date.now();
+function sheetUrl(gid) {
+  return SHEET_BASE_URL + '&gid=' + gid + '&single=true&t=' + Date.now();
 }
 
 async function fetchTab(tab, channel) {
@@ -313,8 +313,8 @@ async function fetchTab(tab, channel) {
 async function loadData() {
   document.getElementById('loading').style.display = 'flex';
   try {
-    var gRows = await fetchTab(GOOGLE_TAB, 'Google Ads');
-    var mRows = await fetchTab(META_TAB, 'Meta');
+    var gRows = await fetchTab(GOOGLE_GID, 'Google Ads');
+    var mRows = await fetchTab(META_GID, 'Meta');
     allRows = gRows.concat(mRows).sort(function(a,b){return b.date.localeCompare(a.date);});
     document.getElementById('last-update').textContent = 'Aggiornato: ' + new Date().toLocaleString('it-IT',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
     render(allRows);
